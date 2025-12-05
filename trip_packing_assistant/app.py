@@ -9,7 +9,7 @@ from services.llm_service import ask_ai
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Activity options available on the form
+# Activity choices shown on the form
 ACTIVITY_CHOICES = {
     "A": "City sightseeing",
     "B": "Hiking or outdoor excursions",
@@ -21,43 +21,35 @@ ACTIVITY_CHOICES = {
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    """Homepage with trip form."""
+    """Homepage: form for trip details."""
     if request.method == "POST":
         destination = request.form.get("destination")
-        start_date = request.form.get("start_date")
-        end_date = request.form.get("end_date")
+        start_date_str = request.form.get("start_date")
+        end_date_str = request.form.get("end_date")
         activities = request.form.getlist("activities")
 
-        # Convert string → datetime
-        start_dt = datetime.strptime(start_date, "%Y-%m-%d")
-        end_dt = datetime.strptime(end_date, "%Y-%m-%d")
+        # Convert strings → datetime objects
+        start_dt = datetime.strptime(start_date_str, "%Y-%m-%d")
+        end_dt = datetime.strptime(end_date_str, "%Y-%m-%d")
+        trip_length = (end_dt - start_dt).days + 1
 
-        # Weather API: get coordinates
+        # Get coordinates + weather
         lat, lon = get_coordinates(destination)
-
         weather_data = None
         packing_list = None
 
-        if lat and lon:
+        if lat is not None and lon is not None:
             weather_data = get_trip_weather(lat, lon, start_dt, end_dt)
-
-            trip_length = (end_dt - start_dt).days + 1
-
-            # Create packing list
-            packing_list = generate_packing_list(
-                trip_length=trip_length,
-                weather_data=weather_data,
-                activities=activities
-            )
+            packing_list = generate_packing_list(trip_length, weather_data, activities)
 
         return render_template(
             "results.html",
             destination=destination,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=start_date_str,
+            end_date=end_date_str,
+            activities=activities,
             weather=weather_data,
             packing_list=packing_list,
-            activities=activities,
             ai_answer=None
         )
 
@@ -66,19 +58,48 @@ def index():
 
 @app.route("/ask_ai", methods=["POST"])
 def ask_ai_route():
-    """User submits a question to OpenAI."""
+    """
+    Handle 'Ask AI' form on results page.
+    We recompute weather + packing so the page stays consistent.
+    """
     user_question = request.form.get("user_question")
-    ai_answer = ask_ai(user_question)
 
-    # Re-render results page WITH the AI response included
+    destination = request.form.get("destination")
+    start_date_str = request.form.get("start_date")
+    end_date_str = request.form.get("end_date")
+    activities_str = request.form.get("activities", "")
+    activities = activities_str.split(",") if activities_str else []
+
+    # Recompute trip info for consistency
+    start_dt = datetime.strptime(start_date_str, "%Y-%m-%d")
+    end_dt = datetime.strptime(end_date_str, "%Y-%m-%d")
+    trip_length = (end_dt - start_dt).days + 1
+
+    lat, lon = get_coordinates(destination)
+    weather_data = None
+    packing_list = None
+
+    if lat is not None and lon is not None:
+        weather_data = get_trip_weather(lat, lon, start_dt, end_dt)
+        packing_list = generate_packing_list(trip_length, weather_data, activities)
+
+    # Build human-readable context for the model
+    activity_labels = [ACTIVITY_CHOICES.get(a, a) for a in activities]
+    context = (
+        f"Destination: {destination}, dates: {start_date_str} to {end_date_str}. "
+        f"Activities: {', '.join(activity_labels) if activity_labels else 'not specified'}."
+    )
+
+    ai_answer = ask_ai(user_question, context)
+
     return render_template(
         "results.html",
-        destination=request.form.get("destination"),
-        start_date=request.form.get("start_date"),
-        end_date=request.form.get("end_date"),
-        weather=None,                 # Results page will ignore None
-        packing_list=None,            # Same here
-        activities=None,
+        destination=destination,
+        start_date=start_date_str,
+        end_date=end_date_str,
+        activities=activities,
+        weather=weather_data,
+        packing_list=packing_list,
         ai_answer=ai_answer
     )
 
