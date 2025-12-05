@@ -2,64 +2,65 @@ import requests
 from datetime import datetime
 from config import Config
 
-def get_coordinates(city_name):
-    """Fetches Lat/Lon for a city name."""
-    url = f"http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=1&appid={Config.OPENWEATHER_API_KEY}"
-    resp = requests.get(url)
-    if resp.status_code == 200 and resp.json():
-        data = resp.json()[0]
-        return data['lat'], data['lon']
-    return None, None
 
-def get_trip_weather(lat, lon, start_date, end_date):
-    """
-    Fetches 5-day/3-hour forecast and aggregates it into a simple trip summary.
-    Note: Free tier keys often don't support the 'OneCall' daily API, 
-    so we use the standard 'forecast' endpoint.
-    """
-    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=metric&appid={Config.OPENWEATHER_API_KEY}"
-    resp = requests.get(url)
+def get_coordinates(city_name):
+    """Use OpenWeather geocoding to convert city → lat/lon"""
+    url = "http://api.openweathermap.org/geo/1.0/direct"
+    params = {
+        "q": city_name,
+        "limit": 1,
+        "appid": Config.OPENWEATHER_API_KEY
+    }
+
+    resp = requests.get(url, params=params)
     data = resp.json()
 
-    daily_summary = []
-    max_temps = []
-    rain_probs = []
+    if not data:
+        return None, None
 
-    # Simple aggregation of the 3-hour blocks
-    for item in data.get('list', []):
-        dt = datetime.fromtimestamp(item['dt'])
-        # Only include days within user's range (OpenWeather only gives 5 days ahead)
-        if start_date.date() <= dt.date() <= end_date.date():
-            max_temps.append(item['main']['temp_max'])
-            rain_probs.append(item.get('pop', 0))
-            
-            # Grab a midday weather description for the list
-            if dt.hour == 12:
-                daily_summary.append({
-                    'date': dt.strftime('%Y-%m-%d'),
-                    'temp': item['main']['temp'],
-                    'desc': item['weather'][0]['description'],
-                    'pop': item.get('pop', 0)
-                })
+    return data[0]["lat"], data[0]["lon"]
 
-    # If dates are too far in future, return generic fallback
-    if not max_temps:
-        return {
-            'days': [],
-            'avg_temp_max': 20, # fallback
-            'max_pop': 0.0,
-            'is_cold': False,
-            'is_rainy': False
-        }
 
-    overall_max_temp = max(max_temps)
-    overall_rain_prob = max(rain_probs)
+def get_trip_weather(lat, lon, start_date, end_date):
+    """Fetch daily forecast from OpenWeather OneCall API"""
 
-    from config import TEMP_COLD, RAIN_THRESHOLD
+    url = "https://api.openweathermap.org/data/3.0/onecall"
+    params = {
+        "lat": lat,
+        "lon": lon,
+        "exclude": "minutely,hourly,alerts",
+        "units": "metric",
+        "appid": Config.OPENWEATHER_API_KEY
+    }
+
+    resp = requests.get(url, params=params)
+    raw = resp.json().get("daily", [])
+
+    daily_weather = []
+    temps = []
+    max_pop = 0
+
+    for day in raw:
+        dt = datetime.fromtimestamp(day["dt"]).date()
+        if start_date.date() <= dt <= end_date.date():
+            tmin = day["temp"]["min"]
+            tmax = day["temp"]["max"]
+            pop = day.get("pop", 0)
+
+            temps.append(tmax)
+            max_pop = max(max_pop, pop)
+
+            daily_weather.append({
+                "date": dt.isoformat(),
+                "tmin": tmin,
+                "tmax": tmax,
+                "pop": pop
+            })
+
+    avg_temp_max = round(sum(temps) / len(temps), 1) if temps else None
+
     return {
-        'days': daily_summary,
-        'avg_temp_max': round(sum(max_temps)/len(max_temps), 1),
-        'max_pop': overall_rain_prob,
-        'is_cold': overall_max_temp < TEMP_COLD,
-        'is_rainy': overall_rain_prob > RAIN_THRESHOLD
+        "daily": daily_weather,
+        "avg_temp_max": avg_temp_max,
+        "max_pop": max_pop
     }

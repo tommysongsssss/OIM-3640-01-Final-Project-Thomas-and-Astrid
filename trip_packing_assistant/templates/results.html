@@ -1,19 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Packing List for {{ destination }} ({{ trip_length }} days)</h2>
 
-<h3>Weather Summary</h3>
-<p>Average High: {{ weather.avg_temp_max }} °C</p>
-<p>Rain Chance: {{ (weather.max_pop * 100)|round }}%</p>
+<div class="card">
+    <h2>Trip Results for {{ destination }}</h2>
 
-<h3>Checklist</h3>
-{% for category, items in packing_list.items() %}
-    <h4>{{ category }}</h4>
-    <ul>
-    {% for item, count in items.items() %}
-        <li>{{ count }} × {{ item }}</li>
-    {% endfor %}
-    </ul>
-{% endfor %}
+    <p><strong>Dates:</strong> {{ start_date }} → {{ end_date }}</p>
+
+    {% if weather %}
+    <div class="weather-box">
+        <h3>🌤 Weather Forecast</h3>
+        <p><strong>Average High:</strong> {{ weather.avg_temp_max }}°C</p>
+        <p><strong>Rain Probability:</strong> {{ (weather.max_pop * 100) | round }}%</p>
+    </div>
+    {% endif %}
+
+    {% if packing_list %}
+    <div class="packing-box">
+        <h3>🧳 Recommended Packing List</h3>
+        <ul>
+            {% for item, count in packing_list.items() %}
+                <li><strong>{{ count }}x</strong> {{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<!-- AI Question Box -->
+<div class="card ai-card">
+    <h2>🤖 Ask AI About Your Trip</h2>
+
+    <form method="POST" action="/ask_ai">
+        <input type="hidden" name="destination" value="{{ destination }}">
+        <input type="hidden" name="start_date" value="{{ start_date }}">
+        <input type="hidden" name="end_date" value="{{ end_date }}">
+
+        <textarea name="user_question" placeholder="Ask me anything… e.g. What outfits should I pack?" required></textarea>
+        <button type="submit" class="btn-primary">Ask AI</button>
+    </form>
+
+    {% if ai_answer %}
+    <div class="ai-response">
+        <h3>AI Response</h3>
+        <p>{{ ai_answer }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<a href="/" class="btn-secondary">← Plan Another Trip</a>
+
 {% endblock %}

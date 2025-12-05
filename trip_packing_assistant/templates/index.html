@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h2>Plan Your Trip</h2>
+
+    <form method="POST" class="form">
+
+        <label>Destination</label>
+        <input type="text" name="destination" placeholder="e.g. London" required>
+
+        <label>Start Date</label>
+        <input type="date" name="start_date" required>
+
+        <label>End Date</label>
+        <input type="date" name="end_date" required>
+
+        <label>Activities</label>
+        <div class="checkbox-group">
+            {% for key, label in activities.items() %}
+                <label class="checkbox">
+                    <input type="checkbox" name="activities" value="{{ key }}">
+                    {{ label }}
+                </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn-primary">Generate Packing List</button>
+    </form>
+</div>
+
+{% endblock %}

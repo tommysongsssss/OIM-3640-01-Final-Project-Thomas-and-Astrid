@@ -1,30 +1,115 @@
-body { font-family: 'Helvetica Neue', sans-serif; background: #f4f7f6; margin: 0; color: #333; }
-.container { max-width: 800px; margin: 0 auto; padding: 20px; }
-header { background: #007bff; color: white; padding: 1rem 0; text-align: center; }
-.card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+/* ---------- Base Layout ---------- */
 
-.form-group { margin-bottom: 1.5rem; }
-.form-row { display: flex; gap: 20px; }
-.form-row .form-group { flex: 1; }
-label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
-input[type="text"], input[type="date"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
-.btn { background: #28a745; color: white; border: none; padding: 12px 20px; cursor: pointer; width: 100%; font-size: 1.1rem; border-radius: 4px; }
-.btn:hover { background: #218838; }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fa;
+    color: #333;
+}
 
-.checkbox-group label { display: block; font-weight: normal; margin-bottom: 5px; cursor: pointer; }
-.checkbox-group input { margin-right: 10px; }
+.header, .footer {
+    text-align: center;
+    background: #0057D9;
+    color: white;
+    padding: 18px;
+}
 
-.results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.btn-secondary { background: #6c757d; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; }
+.content {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+}
 
-.weather-summary, .ai-box, .packing-list { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.forecast-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 10px; }
-.forecast-card { background: #e9ecef; padding: 10px; text-align: center; border-radius: 4px; display: flex; flex-direction: column; }
-.forecast-card .date { font-size: 0.8rem; color: #666; }
-.forecast-card .temp { font-weight: bold; font-size: 1.2rem; }
+/* ---------- Cards ---------- */
 
-.list-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-.list-category ul { list-style: none; padding: 0; }
-.list-category li { margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+.card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 28px;
+}
 
-.ai-box { background: #e3f2fd; border-left: 5px solid #2196f3; }
+.card h2 {
+    margin-top: 0;
+}
+
+/* ---------- Form Styles ---------- */
+
+.form label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+}
+
+input[type="text"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+textarea {
+    height: 120px;
+}
+
+/* Checkbox layout */
+.checkbox-group {
+    margin-top: 10px;
+}
+
+.checkbox {
+    display: block;
+    margin-bottom: 6px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn-primary {
+    background: #0057D9;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.btn-primary:hover {
+    background: #0041a8;
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #ddd;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.btn-secondary:hover {
+    background: #ccc;
+}
+
+/* ---------- AI Box ---------- */
+
+.ai-card textarea {
+    width: 100%;
+}
+
+.ai-response {
+    background: #eef5ff;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+    border-left: 4px solid #0057D9;
+}
