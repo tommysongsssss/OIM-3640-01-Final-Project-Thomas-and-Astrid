@@ -4,29 +4,20 @@ from config import Config
 client = OpenAI(api_key=Config.OPENAI_API_KEY)
 
 def get_ai_outfit_recommendation(weather_summary, activities):
-    """
-    Uses OpenAI to generate a creative daily outfit idea.
-    """
-    if not Config.OPENAI_API_KEY:
-        return "AI suggestions unavailable (No API Key found)."
+    prompt = f"""
+Weather:
+{weather_summary}
 
-    try:
-        activity_str = ", ".join(activities)
-        prompt = (
-            f"I am traveling to a place with this weather: {weather_summary}. "
-            f"My activities are: {activity_str}. "
-            "Suggest ONE stylish and practical outfit combination for a typical day."
-        )
+Activities:
+{', '.join(activities)}
 
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a helpful travel fashion assistant."},
-                {"role": "user", "content": prompt}
-            ],
-            max_tokens=100
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        print(f"LLM Error: {e}")
-        return "Could not generate AI outfit suggestion."
+Give 2–3 outfit recommendations.
+"""
+
+    res = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=250
+    )
+
+    return res.choices[0].message["content"]

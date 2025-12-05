@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Packing List for {{ destination }} ({{ trip_length }} days)</h2>
+
+<h3>Weather Summary</h3>
+<p>Average High: {{ weather.avg_temp_max }} °C</p>
+<p>Rain Chance: {{ (weather.max_pop * 100)|round }}%</p>
+
+<h3>Checklist</h3>
+{% for category, items in packing_list.items() %}
+    <h4>{{ category }}</h4>
+    <ul>
+    {% for item, count in items.items() %}
+        <li>{{ count }} × {{ item }}</li>
+    {% endfor %}
+    </ul>
+{% endfor %}
+{% endblock %}

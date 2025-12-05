@@ -1,0 +1,30 @@
+body { font-family: 'Helvetica Neue', sans-serif; background: #f4f7f6; margin: 0; color: #333; }
+.container { max-width: 800px; margin: 0 auto; padding: 20px; }
+header { background: #007bff; color: white; padding: 1rem 0; text-align: center; }
+.card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+.form-group { margin-bottom: 1.5rem; }
+.form-row { display: flex; gap: 20px; }
+.form-row .form-group { flex: 1; }
+label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+input[type="text"], input[type="date"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+.btn { background: #28a745; color: white; border: none; padding: 12px 20px; cursor: pointer; width: 100%; font-size: 1.1rem; border-radius: 4px; }
+.btn:hover { background: #218838; }
+
+.checkbox-group label { display: block; font-weight: normal; margin-bottom: 5px; cursor: pointer; }
+.checkbox-group input { margin-right: 10px; }
+
+.results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.btn-secondary { background: #6c757d; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; }
+
+.weather-summary, .ai-box, .packing-list { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.forecast-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 10px; }
+.forecast-card { background: #e9ecef; padding: 10px; text-align: center; border-radius: 4px; display: flex; flex-direction: column; }
+.forecast-card .date { font-size: 0.8rem; color: #666; }
+.forecast-card .temp { font-weight: bold; font-size: 1.2rem; }
+
+.list-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+.list-category ul { list-style: none; padding: 0; }
+.list-category li { margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+.ai-box { background: #e3f2fd; border-left: 5px solid #2196f3; }
