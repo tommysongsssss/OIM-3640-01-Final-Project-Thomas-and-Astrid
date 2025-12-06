@@ -129,5 +129,3 @@ def generate_packing_list(trip_length, weather_data, activities):
         packing["Extra Budget Space"] = 1
         
     return packing
-
-
