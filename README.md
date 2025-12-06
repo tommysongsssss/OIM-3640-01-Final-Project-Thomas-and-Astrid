@@ -18,8 +18,17 @@ And for an added “wow factor,” we designed an optional AI Trip Assistant tha
 
 ## User Instructions
 To use the Trip Packing Assistant, users simply enter their destination, trip dates, and planned activities. Once the form is submitted, the application retrieves a weather forecast for those dates, analyzes the expected conditions, calculates trip length, and incorporates activity requirements to generate a customized packing list. The results page presents a clear summary of the weather—including average high temperatures and rain probability—alongside an optimized checklist of clothing and essentials. An optional AI question box allows users to ask follow-up questions, such as outfit suggestions, packing strategies, or tips tailored to specific travel situations. 
+![Packing Output](screenshots/output.jpg)
 
 To run the application yourself, you only need to provide a weather API key and an OpenAI API key in an .env file; once those are set, the app is fully ready to launch in Flask.
+
+Activities: 10 Activities including different travel purposes for the users to choose base on needs
+![Activities Input](screenshots/Activities.jpg)
+
+To help the user better navigate our OpenAI chatbox, we also provided example questions prompt for inspirations: 
+![AI Prompt Example 1](screenshots/prompt1.jpg)
+![AI Prompt Example 2](screenshots/prompt2.jpg)
+
 
 ## Implementation Information
 
@@ -73,8 +82,8 @@ Templates (index.html, results.html, base.html):
             │ Flask Controller      │
             │ (app.py)             │
             └──────────┬────────────┘
-                      │ Calls
-                      ▼
+                       │ Calls
+                       ▼
         ┌──────────────────────────────┐
         │ Weather Service              │
         │ - fetch API forecast         │
@@ -88,8 +97,8 @@ Templates (index.html, results.html, base.html):
         │ - evaluate activities        │
         │ - generate packing list      │
         └──────────┬───────────────────┘
-                  │ Sends results
-                  ▼
+                   │ Sends results
+                   ▼
          ┌──────────────────────────────┐
          │ results.html Template        │
          │ - weather summary            │
@@ -145,8 +154,10 @@ We then designed and implemented an LLM service to enhance the user experience w
 ### Phase 5 — UI and Templates
 With the backend in place, we refined the user interface. We established a consistent layout through a shared base.html template, added spacing, icons, and card-style components for improved readability, and ensured that the page structure remained clean and mobile-friendly. These refinements helped create a smooth, intuitive user flow from input to results.
 
-Phase 6 — Polish and Finalization
-In the final stage, we focused on improving clarity across the entire application. We refined output formatting, enhanced the structure of the results page, cleaned up documentation, and ensured that the user experience felt cohesive from start to finish.
+### Phase 6 — Polish and Finalization
+In the final stage, we focused on improving clarity across the entire application. We refined output formatting, enhanced the structure of the results page, cleaned up documentation, and ensured that the user experience felt cohesive from start to finish. 
+
+However, there was only one flaw of this project. We intended to support longer-duration weather forecasts for users planning extended trips, but due to restrictions in our current OpenWeather API subscription, our predictions are limited to a maximum of 5 days ahead.
 
 ## Attribution
 Weather API: Open-Meteo or other free weather APIs
