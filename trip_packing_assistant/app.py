@@ -11,11 +11,16 @@ app.config.from_object(Config)
 
 # Activity choices shown on the form
 ACTIVITY_CHOICES = {
-    "A": "City sightseeing",
+   "A": "City sightseeing",
     "B": "Hiking or outdoor excursions",
     "C": "Business meetings or formal events",
     "D": "Sports (Gym/Volleyball)",
-    "E": "Beach or pool vacation"
+    "E": "Beach or pool vacation",
+    "F": "Nightlife / Clubs",
+    "G": "Photography / Content creation",
+    "H": "Long travel days (airport, train, etc.)",
+    "I": "Rainy-day indoor activities",
+    "J": "Luxury dining or upscale events"
 }
 
 

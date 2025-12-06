@@ -167,3 +167,134 @@ footer {
     color: #888;
     margin-top: 50px;
 }
+
+/* -------------------------------------------------- */
+/* NEW: ACTIVITIES CHECKBOX GROUP (2-col layout)     */
+/* -------------------------------------------------- */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  
+    gap: 12px 20px;
+    margin-bottom: 20px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    color: #444;
+}
+
+.checkbox input {
+    margin-right: 8px;
+}
+
+/* -------------------------------------------------- */
+/* NEW: PROMPT BUTTONS (Ask AI Suggestions)           */
+/* -------------------------------------------------- */
+
+.suggested-prompts {
+    margin-bottom: 18px;
+}
+
+.suggested-prompts p {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.prompt-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.prompt-buttons button {
+    background: #eaf4ff;
+    border: 1px solid #cfe6ff;
+    color: #2c6fa9;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.25s;
+    width: auto;
+}
+
+.prompt-buttons button:hover {
+    background: #d6eaff;
+    border-color: #a5d0ff;
+}
+
+.surprise-btn {
+    background: #ffd86b;
+    border: 1px solid #ffc93a;
+    color: #6d4b00;
+    font-weight: 600;
+}
+
+.surprise-btn:hover {
+    background: #ffcd52;
+    border-color: #ffb800;
+}
+
+/* -------------------------------------------------- */
+/* NEW: ASK AI SECTION                                */
+/* -------------------------------------------------- */
+.ask-ai-section h3 {
+    margin-bottom: 14px;
+    font-size: 20px;
+    color: #333;
+}
+
+.ask-ai-section textarea {
+    margin-top: 10px;
+    min-height: 120px;
+    background: #fafbff;
+    border: 1px solid #d9defc;
+}
+
+.ask-ai-section button {
+    margin-top: 14px;
+    background: #5aa9e6;
+}
+
+.ask-ai-section button:hover {
+    background: #3f8fd1;
+}
+
+/* AI Response Styling */
+.ai-response {
+    background: #f1f6ff;
+    border: 1px solid #d2e2ff;
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 18px;
+}
+
+.ai-response h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #2c6fa9;
+}
+
+.ai-response p {
+    color: #444;
+}
+
+/* NEW: BACK BUTTON */
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: #7fc8a9;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.25s;
+}
+
+.back-btn:hover {
+    background: #6cbf97;
+}
