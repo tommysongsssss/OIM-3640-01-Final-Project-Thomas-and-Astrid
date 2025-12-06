@@ -18,12 +18,58 @@
 
         <label>Activities</label>
         <div class="checkbox-group">
-            {% for key, label in activities.items() %}
-                <label class="checkbox">
-                    <input type="checkbox" name="activities" value="{{ key }}">
-                    {{ label }}
-                </label>
-            {% endfor %}
+
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="A">
+                City sightseeing
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="B">
+                Hiking or outdoor excursions
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="C">
+                Business meetings or formal events
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="D">
+                Sports (Gym/Volleyball)
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="E">
+                Beach or pool vacation
+            </label>
+
+            <!-- ⭐ NEW 5 ACTIVITIES -->
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="F">
+                Nightlife / Partying
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="G">
+                Photography / Content creation
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="H">
+                Snow sports / Ski trip
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="I">
+                Long-haul flight / Travel day
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="activities" value="J">
+                Shopping trip
+            </label>
+
         </div>
 
         <button type="submit" class="btn-primary">Generate Packing List</button>
